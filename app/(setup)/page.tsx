@@ -19,7 +19,6 @@ const Setup = async () => {
   if (server) {
     return redirect(`/server/${server.id}`);
   }
-
   return <InitalModal />;
 };
 

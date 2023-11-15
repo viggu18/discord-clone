@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import FileUpload from "@/components/FileUpload";
+import { useEffect, useState } from "react";
 
 const formSchema = zod.object({
   name: zod.string().min(1, {
@@ -32,6 +34,7 @@ const formSchema = zod.object({
 });
 
 const InitalModal = () => {
+  const [isClient, setIsClient] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,7 +53,11 @@ const InitalModal = () => {
     console.log(values);
   }
 
-  if (!window) {
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
     return null;
   }
 
@@ -69,7 +76,17 @@ const InitalModal = () => {
           <form onSubmit={handleSubmit(_onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
-                Todo: Image upload
+                <FormField
+                  control={control}
+                  name="imageUrl"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <FileUpload />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <FormField

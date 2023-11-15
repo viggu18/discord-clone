@@ -1,5 +1,4 @@
-import { currentUser, redirectToSignIn } from "@clerk/nextjs";
-
+import { redirectToSignIn, currentUser } from "@clerk/nextjs";
 import db from "@/lib/db";
 
 async function initalProfile() {
