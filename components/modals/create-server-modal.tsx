@@ -22,7 +22,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import useModal from "@/hooks/use-modal-store";
 
 const formSchema = zod.object({
   name: zod.string().min(1, {
@@ -33,8 +35,12 @@ const formSchema = zod.object({
   }),
 });
 
-const InitalModal = () => {
-  const [isClient, setIsClient] = useState(false);
+const CreateServerModal = () => {
+  const { isOpen, onClose, type } = useModal();
+
+  const isModalOpen = isOpen && type === "createServer";
+
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,22 +53,27 @@ const InitalModal = () => {
     handleSubmit,
     control,
     formState: { isSubmitting },
+    reset,
   } = form;
 
   async function _onSubmit(values: zod.infer<typeof formSchema>) {
-    console.log(values);
+    await axios
+      .post("/api/server", values)
+      .then(() => {
+        form.reset();
+        router.refresh();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
+  function handleClose() {
+    reset();
+    onClose();
   }
-
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="font-bold text-2xl text-center">
@@ -79,10 +90,13 @@ const InitalModal = () => {
                 <FormField
                   control={control}
                   name="imageUrl"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem className="w-full">
                       <FormControl>
-                        <FileUpload />
+                        <FileUpload
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -92,7 +106,7 @@ const InitalModal = () => {
               <FormField
                 control={control}
                 name="name"
-                render={({ field, fieldState }) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel className="uppercase text-bold text-xs text-zinc-500 dark:text-secondary/70">
                       Server name
@@ -123,4 +137,4 @@ const InitalModal = () => {
   );
 };
 
-export default InitalModal;
+export default CreateServerModal;

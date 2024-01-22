@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import initalProfile from "@/lib/inital-profile";
 import db from "@/lib/db";
-import InitalModal from "@/components/modals/InitalModal";
+import InitalModal from "@/components/modals/initial-modal";
 
 const Setup = async () => {
   const profile = await initalProfile();
