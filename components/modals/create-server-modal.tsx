@@ -62,6 +62,7 @@ const CreateServerModal = () => {
       .then(() => {
         form.reset();
         router.refresh();
+        onClose();
       })
       .catch((err) => {
         console.log(err);
@@ -72,6 +73,7 @@ const CreateServerModal = () => {
     reset();
     onClose();
   }
+
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">

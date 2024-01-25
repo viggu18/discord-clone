@@ -1,4 +1,3 @@
-import React from "react";
 import currentProfile from "@/lib/currentProfile";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -28,10 +27,10 @@ const NavigationSidebar = async () => {
   });
 
   return (
-    <div className="flex flex-col items-center space-y-4 h-full text-primary w-full bg-[#1E1F22] py-3">
+    <div className="flex flex-col items-center space-y-4 h-full text-primary w-full dark:bg-[#1E1F22] py-3">
       <NavigationAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 w-10 mx-auto rounded-md" />
-      <ScrollArea className="flex-1 w-full">
+      <ScrollArea className="flex-1 w-full ">
         {servers.map((server) => (
           <div key={server.id} className="mb-4">
             <NavigationItem

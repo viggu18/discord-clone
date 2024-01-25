@@ -15,11 +15,7 @@ export const metadata: Metadata = {
   description: "Cloneeeeeeeeee",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: layout) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
