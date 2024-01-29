@@ -51,7 +51,7 @@ const Invite: FC<InvitecodeProps> = async ({ params: { inviteCode } }) => {
   });
 
   if (server) {
-    return redirect(`/servers/${server.id}`);
+    return redirect(`/server/${server.id}`);
   }
 
   return null;

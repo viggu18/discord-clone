@@ -62,8 +62,10 @@ const EditServerModal = () => {
   } = form;
 
   async function _onSubmit(values: zod.infer<typeof formSchema>) {
+    if (!server?.id) return;
+
     await axios
-      .post("/api/servers", values)
+      .patch(`/api/servers/${server?.id}`, values)
       .then(() => {
         form.reset();
         router.refresh();
