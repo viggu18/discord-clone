@@ -54,7 +54,7 @@ const InitalModal = () => {
 
   async function _onSubmit(values: zod.infer<typeof formSchema>) {
     await axios
-      .post("/api/server", values)
+      .post("/api/servers", values)
       .then(() => {
         form.reset();
         router.refresh();

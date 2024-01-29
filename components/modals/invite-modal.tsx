@@ -13,11 +13,14 @@ import { Label } from "@/components/ui/label";
 
 import axios from "axios";
 import useModal from "@/hooks/use-modal-store";
+import useOrigin from "@/hooks/use-origin";
 
 const InviteModal = () => {
   const { isOpen, onOpen, onClose, type, data } = useModal();
   const isModalOpen = isOpen && type === "invite";
   const server = data.server;
+
+  const origin = useOrigin();
 
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +40,7 @@ const InviteModal = () => {
     try {
       setIsLoading(true);
       const response = await axios.patch(
-        `/api/server/${server?.id}/invite-code`
+        `/api/servers/${server?.id}/invite-code`
       );
 
       onOpen("invite", { server: response.data });

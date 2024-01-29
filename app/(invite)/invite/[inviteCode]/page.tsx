@@ -32,9 +32,29 @@ const Invite: FC<InvitecodeProps> = async ({ params: { inviteCode } }) => {
   });
 
   if (existingServer) {
-    return redirect(`/servers/${existingServer.id}`);
+    return redirect(`/server/${existingServer.id}`);
   }
-  return <Fragment />;
+
+  const server = await db.server.update({
+    where: {
+      inviteCode: inviteCode,
+    },
+    data: {
+      members: {
+        create: [
+          {
+            profileId: profile.id,
+          },
+        ],
+      },
+    },
+  });
+
+  if (server) {
+    return redirect(`/servers/${server.id}`);
+  }
+
+  return null;
 };
 
 export default Invite;

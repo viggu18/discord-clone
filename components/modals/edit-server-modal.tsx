@@ -35,17 +35,22 @@ const formSchema = zod.object({
   }),
 });
 
-const CreateServerModal = () => {
-  const { isOpen, onClose, type } = useModal();
+const EditServerModal = () => {
+  const {
+    isOpen,
+    onClose,
+    type,
+    data: { server },
+  } = useModal();
 
-  const isModalOpen = isOpen && type === "createServer";
+  const isModalOpen = isOpen && type === "editServer";
 
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      imageUrl: "",
+    values: {
+      name: server?.name ?? "",
+      imageUrl: server?.imageUrl ?? "",
     },
   });
 
@@ -129,7 +134,7 @@ const CreateServerModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button type="submit" disabled={isSubmitting} variant="primary">
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>
@@ -139,4 +144,4 @@ const CreateServerModal = () => {
   );
 };
 
-export default CreateServerModal;
+export default EditServerModal;
